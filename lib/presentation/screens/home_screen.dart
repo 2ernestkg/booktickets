@@ -1,7 +1,9 @@
+import 'package:booktickets/presentation/screens/hotel_screen.dart';
 import 'package:booktickets/presentation/screens/ticket_view.dart';
 import 'package:booktickets/presentation/utils/app_styles.dart';
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:gap/gap.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -80,7 +82,48 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
-          TicketView(),
+          const Gap(15),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.only(left: 16),
+            child: Row(
+              children: const [
+                TicketView(),
+                TicketView(),
+              ],
+            ),
+          ),
+          const Gap(15),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Hotels", style: Styles.headerStyle2),
+                InkWell(
+                  onTap: () {
+                    //write something
+                  },
+                  child: Text("View all",
+                      style: Styles.textStyle
+                          .copyWith(color: Styles.primaryColor)),
+                ),
+              ],
+            ),
+          ),
+          const Gap(15),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.only(left: 16),
+            child: Row(
+              children: const [
+                HotelScreen(),
+                HotelScreen(),
+                HotelScreen(),
+                HotelScreen(),
+              ],
+            ),
+          )
         ],
       ),
     );
