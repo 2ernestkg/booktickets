@@ -2,6 +2,7 @@ import 'package:booktickets/presentation/screens/hotel_screen.dart';
 import 'package:booktickets/presentation/screens/ticket_view.dart';
 import 'package:booktickets/presentation/utils/app_styles.dart';
 import 'package:booktickets/presentation/utils/app_info_list.dart';
+import 'package:booktickets/presentation/widgets/headline.dart';
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -65,20 +66,10 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 const Gap(40),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Upcoming Flights", style: Styles.headerStyle2),
-                    InkWell(
-                      onTap: () {
-                        //write something
-                      },
-                      child: Text("View all",
-                          style: Styles.textStyle
-                              .copyWith(color: Styles.primaryColor)),
-                    ),
-                  ],
-                ),
+                const BlockHeadline(
+                  headerText: 'Upcoming Flights',
+                  linkText: 'View all',
+                )
               ],
             ),
           ),
@@ -92,22 +83,11 @@ class HomeScreen extends StatelessWidget {
           ),
           const Gap(15),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Hotels", style: Styles.headerStyle2),
-                InkWell(
-                  onTap: () {
-                    //write something
-                  },
-                  child: Text("View all",
-                      style: Styles.textStyle
-                          .copyWith(color: Styles.primaryColor)),
-                ),
-              ],
-            ),
-          ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: const BlockHeadline(
+                headerText: 'Hotels',
+                linkText: 'View all',
+              )),
           const Gap(15),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -115,7 +95,6 @@ class HomeScreen extends StatelessWidget {
             child: Row(
               children: hotelList.map((e) => HotelScreen(hotel: e)).toList(),
             ),
-
           )
         ],
       ),
