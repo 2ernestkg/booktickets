@@ -1,8 +1,11 @@
 import 'package:booktickets/presentation/utils/app_layout.dart';
 import 'package:booktickets/presentation/utils/app_styles.dart';
+import 'package:booktickets/presentation/widgets/column_layout.dart';
 import 'package:booktickets/presentation/widgets/thick_container.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+
+import '../widgets/layout_builder_widget.dart';
 
 class TicketView extends StatelessWidget {
   final Map<String, dynamic> ticket;
@@ -12,6 +15,7 @@ class TicketView extends StatelessWidget {
   final TextStyle headStyle;
   final TextStyle detailStyle;
   final Color iconColor;
+  final Radius bottomRadius;
   TicketView({
     Key? key,
     required this.ticket,
@@ -21,6 +25,7 @@ class TicketView extends StatelessWidget {
     TextStyle? headStyle,
     TextStyle? detailStyle,
     this.iconColor = Colors.white,
+    this.bottomRadius = const Radius.circular(21),
   })  : headStyle =
             headStyle ?? Styles.headerStyle3.copyWith(color: Colors.white),
         detailStyle =
@@ -33,7 +38,7 @@ class TicketView extends StatelessWidget {
     final size = AppLayout.getSize(context);
     return SizedBox(
         width: size.width * 0.85,
-        height: AppLayout.getHeight(200),
+        height: AppLayout.getHeight(163),
         child: Container(
             margin: EdgeInsets.only(right: AppLayout.getHeight(16)),
             child: Column(
@@ -63,30 +68,10 @@ class TicketView extends StatelessWidget {
                                 children: [
                                   SizedBox(
                                     height: AppLayout.getHeight(24),
-                                    child: LayoutBuilder(
-                                      builder: (BuildContext context,
-                                          BoxConstraints constraints) {
-                                        return Flex(
-                                            direction: Axis.horizontal,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: List.generate(
-                                                (constraints.constrainWidth() /
-                                                        6)
-                                                    .floor(),
-                                                (index) => SizedBox(
-                                                      width: 3,
-                                                      height: 1,
-                                                      child: DecoratedBox(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                color:
-                                                                    iconColor),
-                                                      ),
-                                                    )));
-                                      },
-                                    ),
+                                    child: LayoutBuilderWidget(
+                                        sections: 6,
+                                        width: 3,
+                                        color: separatorColor),
                                   ),
                                   Center(
                                       child: Transform.rotate(
@@ -140,27 +125,10 @@ class TicketView extends StatelessWidget {
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: LayoutBuilder(
-                            builder: (BuildContext context,
-                                BoxConstraints constraints) {
-                              return Flex(
-                                direction: Axis.horizontal,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                mainAxisSize: MainAxisSize.max,
-                                children: List.generate(
-                                    (constraints.constrainWidth() / 15).floor(),
-                                    (index) => SizedBox(
-                                          width: 5,
-                                          height: 1,
-                                          child: DecoratedBox(
-                                            decoration: BoxDecoration(
-                                              color: separatorColor,
-                                            ),
-                                          ),
-                                        )),
-                              );
-                            },
+                          child: LayoutBuilderWidget(
+                            color: separatorColor,
+                            sections: 15,
+                            width: 6,
                           ),
                         ),
                       ),
@@ -182,9 +150,9 @@ class TicketView extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     color: timeBackgroundColor,
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(21),
-                      bottomRight: Radius.circular(21),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: bottomRadius,
+                      bottomRight: bottomRadius,
                     ),
                   ),
                   padding: const EdgeInsets.only(
@@ -194,31 +162,26 @@ class TicketView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("${ticket['date']}", style: headStyle),
-                              const Gap(5),
-                              Text('Date', style: detailStyle),
-                            ],
+                          ColumnLayout(
+                            topText: '${ticket['date']}',
+                            topTextStyle: headStyle,
+                            bottomText: 'Date',
+                            bottomTextStyle: detailStyle,
+                            alignment: CrossAxisAlignment.start,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text("${ticket['departure_time']}",
-                                  style: headStyle),
-                              const Gap(5),
-                              Text('Departure Time', style: detailStyle),
-                            ],
+                          ColumnLayout(
+                              topText: "${ticket['departure_time']}",
+                              topTextStyle: headStyle,
+                              bottomText: 'Departure Time',
+                              bottomTextStyle: detailStyle,
+                              alignment: CrossAxisAlignment.center),
+                          ColumnLayout(
+                            topText: "${ticket['number']}",
+                            topTextStyle: headStyle,
+                            bottomText: 'Number',
+                            bottomTextStyle: detailStyle,
+                            alignment: CrossAxisAlignment.end,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text("${ticket['number']}", style: headStyle),
-                              const Gap(5),
-                              Text('Number', style: detailStyle),
-                            ],
-                          )
                         ],
                       ),
                     ],
